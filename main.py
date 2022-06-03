@@ -32,20 +32,20 @@ class ReportGenerator:
         # self.report_text = None
         self.escape_string = escape_string
 
-    def generate_report(self, user_id):
+    def generate_report(self):
         cursor = self.connection.cursor()
-        args = (user_id,)
-        sql = f"Select sum(duration) from polaczenia where from_subscriber = {self.escape_string}"
+        # args = (user_id,)
+        sql = f"Select sum(duration) from polaczenia"
         # sql = f"-- Select * from polaczenia where from_subscriber={self.escape_string}"
-        cursor.execute(sql, args)
+        cursor.execute(sql)
         result = cursor.fetchone()[0]
-        self.report_text = f"łączny czas trwania dla użytkownika {user_id} to {result}"
+        self.report_text = f"{result}"
 
     def get_report(self):
         return self.report_text
 
 rg=ReportGenerator(sqlite_con, escape_string="?")
-rg.generate_report(283)
+rg.generate_report()
 rg.get_report()
 
 print(rg.get_report())
